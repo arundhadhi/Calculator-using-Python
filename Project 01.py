@@ -132,23 +132,3 @@ elif operator in ["sin", "cos", "tan", "cosec", "log", "ln", "exp", "pi", "sqrt"
         calculation.rad()
 else:
     print("Invalid operation")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
