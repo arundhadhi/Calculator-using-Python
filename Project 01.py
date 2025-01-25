@@ -2,19 +2,29 @@ import math
 
 class Calculator:
     def __init__(self):
-        self.num_1 = None
-        self.num_2 = None
+        self.numbers = []
         self.special_num = None
 
-    def basic_calculation(self):
+    def input_numbers(self):
         while True:
             try:
-                self.num_1 = float(input("Enter the first number: "))
-                self.num_2 = float(input("Enter the second number: "))
+                n = int(input("How many numbers do you want to calculate?: "))
+                if n < 1:
+                    print("Please enter a positive integer.")
+                    continue
                 break
             except ValueError:
-                print("Invalid input :(")
+                print("Invalid input. Please enter a valid integer.")
 
+        self.numbers = []
+        for i in range(n):
+            while True:
+                try:
+                    num = float(input(f"Enter number {i + 1}: "))
+                    self.numbers.append(num)
+                    break
+                except ValueError:
+                    print("Invalid input. Please enter a valid number.")
 
     def scientific_calculation(self):
         while True:
@@ -22,32 +32,43 @@ class Calculator:
                 self.special_num = float(input("Enter a number for scientific calculation: "))
                 break
             except ValueError:
-                print("Invalid input :(")
-
+                print("Invalid input. Please enter a valid number.")
 
     def add(self):
-        print("Addition:",self.num_1 + self.num_2)
+        print("Addition:", sum(self.numbers))
 
-    def sub(self):
-        print("Subtraction:",self.num_1 - self.num_2)
+    def subtract(self):
+        result = self.numbers[0]
+        for num in self.numbers[1:]:
+            result -= num
+        print("Subtraction:", result)
 
-    def mul(self):
-        print("Multiplication:",self.num_1 * self.num_2)
+    def multiply(self):
+        result = 1
+        for num in self.numbers:
+            result *= num
+        print("Multiplication:", result)
 
-    def div(self):
-        if self.num_2 == 0:
-            print("Not defined")
+    def divide(self):
+        if len(self.numbers) == 2:
+            if self.numbers[1] == 0:
+                print("Not defined.")
+            else:
+                print(f"Division: {self.numbers[0] / self.numbers[1]}")
         else:
-            print("Division:",self.num_1 / self.num_2)
+            print("Division calculate exactly 2 numbers.")
 
-    def rem(self):
-        if self.num_2 == 0:
-            print("Not defined")
+    def modulus(self):
+        if len(self.numbers) == 2:
+            print(f"Modulus: {self.numbers[0] % self.numbers[1]}")
         else:
-            print("Remainder:",self.num_1 % self.num_2)
+            print("Modulus operation calculate exactly 2 numbers.")
 
     def power(self):
-        print("Power calculation",self.num_1 ** self.num_2)
+        if len(self.numbers) == 2:
+            print(f"Power calculation: {self.numbers[0] ** self.numbers[1]}")
+        else:
+            print("Power operation calculate exactly 2 numbers.")
 
     def sine(self):
         print("Sine of the number:", math.sin(math.radians(self.special_num)))
@@ -68,19 +89,13 @@ class Calculator:
         if self.special_num > 0:
             print("Logarithm (base 10) of the number:", math.log10(self.special_num))
         else:
-            print("Logarithm is only valid for positive numbers")
+            print("Logarithm is only valid for positive numbers.")
 
     def natural_log(self):
         if self.special_num > 0:
             print("Natural logarithm of the number:", math.log(self.special_num))
         else:
-            print("Natural logarithm is only valid for positive numbers")
-
-    def exp(self):
-        print("Exponential of the number:", math.exp(self.special_num))
-
-    def pi_value(self):
-        print("Value of pi:",math.pi*(self.special_num))
+            print("Natural logarithm is only valid for positive numbers.")
 
     def square_root(self):
         if self.special_num >= 0:
@@ -88,29 +103,43 @@ class Calculator:
         else:
             print("Square root is not defined for negative numbers.")
 
-    def rad(self):
-        print("The number in radians:", math.radians(self.special_num))
+    def exponential(self):
+        print("Exponential (e^x) of the number:", math.exp(self.special_num))
+
+    def pi_value(self):
+        print("Value of pi multiplied by the number:", math.pi * self.special_num)
+
+    def radians(self):
+        print("Convert degrees to radians:", math.radians(self.special_num))
+
 
 calculation = Calculator()
+
+
 operator = input("Enter the operation (+, -, *, /, %, **, sin, cos, tan, cosec, log, ln, exp, pi, sqrt, rad): ")
 
+
 if operator in ["+", "-", "*", "/", "%", "**"]:
-    calculation.basic_calculation()
+    calculation.input_numbers()
     if operator == "+":
         calculation.add()
     elif operator == "-":
-        calculation.sub()
+        calculation.subtract()
     elif operator == "*":
-        calculation.mul()
+        calculation.multiply()
     elif operator == "/":
-        calculation.div()
+        calculation.divide()
     elif operator == "%":
-        calculation.rem()
+        calculation.modulus()
     elif operator == "**":
         calculation.power()
-elif operator in ["sin", "cos", "tan", "cosec", "log", "ln", "exp", "pi", "sqrt", "rad"]:
+
+
+elif operator in ["pi", "sin", "cos", "tan", "cosec", "log", "ln", "sqrt", "exp", "rad"]:
     calculation.scientific_calculation()
-    if operator == "sin":
+    if operator == "pi":
+        calculation.pi_value()
+    elif operator == "sin":
         calculation.sine()
     elif operator == "cos":
         calculation.cosine()
@@ -122,13 +151,13 @@ elif operator in ["sin", "cos", "tan", "cosec", "log", "ln", "exp", "pi", "sqrt"
         calculation.logarithm()
     elif operator == "ln":
         calculation.natural_log()
-    elif operator == "exp":
-        calculation.exp()
-    elif operator == "pi":
-        calculation.pi_value()
     elif operator == "sqrt":
         calculation.square_root()
+    elif operator == "exp":
+        calculation.exponential()
     elif operator == "rad":
-        calculation.rad()
+        calculation.radians()
+
+
 else:
-    print("Invalid operation")
+    print("Invalid operation.")
